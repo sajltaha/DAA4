@@ -62,6 +62,26 @@ This creates:
 mvn exec:java -Dexec.mainClass="graph.Main"
 ```
 
+## Running Benchmarks
+
+Run comprehensive benchmark on all datasets:
+```bash
+mvn exec:java -Dexec.mainClass="graph.Benchmark"
+```
+
+This will:
+- Test all 9 datasets (small, medium, large)
+- Measure execution times and operation counts
+- Generate `benchmark_report.txt` with detailed analysis
+
+## Project Documentation
+
+See `REPORT.md` for:
+- Detailed algorithm analysis
+- Performance results and graphs
+- Complexity analysis
+- Practical recommendations
+
 ## Dataset Format
 
 Input graphs are in JSON format:
