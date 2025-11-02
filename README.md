@@ -9,6 +9,29 @@ This project implements graph algorithms for smart city task scheduling:
 2. **Topological Sorting** - for DAG ordering
 3. **Shortest/Longest Paths in DAG** - for critical path analysis
 
+## Project Structure
+
+```
+.
+├── src/
+│   ├── main/
+│   │   └── java/
+│   │       └── graph/
+│   │           ├── scc/          # Strongly Connected Components
+│   │           ├── topo/         # Topological Sort
+│   │           ├── dagsp/        # DAG Shortest Paths
+│   │           └── util/         # Common utilities
+│   └── test/
+│       └── java/
+│           └── graph/            # JUnit tests
+├── data/                         # Test datasets
+│   ├── small/
+│   ├── medium/
+│   └── large/
+├── pom.xml
+└── README.md
+```
+
 ## Building
 
 ```bash
@@ -20,6 +43,18 @@ mvn clean compile
 ```bash
 mvn test
 ```
+
+## Generating Datasets
+
+Generate all 9 test datasets:
+```bash
+mvn exec:java -Dexec.mainClass="graph.DatasetGenerator"
+```
+
+This creates:
+- **Small datasets** (6-10 vertices): 3 files in `data/small/`
+- **Medium datasets** (10-20 vertices): 3 files in `data/medium/`
+- **Large datasets** (20-50 vertices): 3 files in `data/large/`
 
 ## Running the Application
 
