@@ -60,7 +60,37 @@ public class Main {
 
             System.out.println("\nIs condensation a valid DAG? " + condensation.isDAG());
 
-            // TODO: Add topological sort
+            // === Topological Sort ===
+            System.out.println("\n" + "=".repeat(50));
+            System.out.println("STEP 3: Topological Sorting of Components");
+            System.out.println("=".repeat(50));
+
+            graph.topo.TopologicalSort topoSort = new graph.topo.TopologicalSort(dag);
+
+            // Try DFS-based topological sort
+            System.out.println("\n--- Using DFS-based algorithm ---");
+            List<Integer> orderDFS = topoSort.sortDFS();
+            topoSort.printResults();
+
+            if (orderDFS != null) {
+                System.out.println("Valid topological order? " + topoSort.isValidOrder());
+
+                // Derive task ordering
+                graph.topo.TaskOrdering taskOrdering = new graph.topo.TaskOrdering(orderDFS, sccs);
+                taskOrdering.deriveTaskOrder();
+                taskOrdering.printTaskOrder();
+            }
+
+            // Try Kahn's algorithm for comparison
+            System.out.println("\n--- Using Kahn's algorithm (for comparison) ---");
+            graph.topo.TopologicalSort topoSortKahn = new graph.topo.TopologicalSort(dag);
+            List<Integer> orderKahn = topoSortKahn.sortKahn();
+            topoSortKahn.printResults();
+
+            if (orderKahn != null) {
+                System.out.println("Valid topological order? " + topoSortKahn.isValidOrder());
+            }
+
             // TODO: Add shortest/longest paths
 
         } catch (IOException e) {
