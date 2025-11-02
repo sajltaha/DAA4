@@ -91,7 +91,41 @@ public class Main {
                 System.out.println("Valid topological order? " + topoSortKahn.isValidOrder());
             }
 
-            // TODO: Add shortest/longest paths
+            // === Shortest Paths in DAG ===
+            System.out.println("\n" + "=".repeat(50));
+            System.out.println("STEP 4: Shortest Paths in DAG");
+            System.out.println("=".repeat(50));
+
+            graph.dagsp.DAGShortestPath shortestPath = new graph.dagsp.DAGShortestPath(dag);
+
+            // Map source from original graph to condensation graph
+            int condensationSource = condensation.getComponentForVertex(source);
+            System.out.println("\nOriginal source vertex: " + source);
+            System.out.println("Condensation source component: " + condensationSource);
+
+            if (shortestPath.computeShortestPaths(condensationSource)) {
+                shortestPath.printResults();
+
+                System.out.println("\nSummary: " + shortestPath.getSummary());
+            }
+
+            // === Longest Paths (Critical Path) ===
+            System.out.println("\n" + "=".repeat(50));
+            System.out.println("STEP 5: Longest Paths (Critical Path Analysis)");
+            System.out.println("=".repeat(50));
+
+            graph.dagsp.DAGLongestPath longestPath = new graph.dagsp.DAGLongestPath(dag);
+
+            if (longestPath.computeCriticalPath()) {
+                longestPath.printResults();
+            }
+
+            // Also compute from specific source
+            System.out.println("\n--- Longest paths from source " + condensationSource + " ---");
+            graph.dagsp.DAGLongestPath longestFromSource = new graph.dagsp.DAGLongestPath(dag);
+            if (longestFromSource.computeLongestPaths(condensationSource)) {
+                longestFromSource.printResults();
+            }
 
         } catch (IOException e) {
             System.err.println("Error loading graph: " + e.getMessage());
