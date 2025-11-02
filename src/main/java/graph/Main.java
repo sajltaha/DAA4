@@ -1,9 +1,12 @@
 package graph;
 
+import graph.scc.CondensationGraph;
+import graph.scc.SCC;
 import graph.util.Graph;
 import graph.util.GraphLoader;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Main entry point for the Smart City Graph Algorithms application.
@@ -36,7 +39,27 @@ public class Main {
             System.out.println("Directed: " + graph.isDirected());
             System.out.println("Weight Model: " + graph.getWeightModel());
 
-            // TODO: Add SCC analysis
+            // === SCC Analysis ===
+            System.out.println("\n" + "=".repeat(50));
+            System.out.println("STEP 1: Finding Strongly Connected Components");
+            System.out.println("=".repeat(50));
+
+            SCC sccFinder = new SCC(graph);
+            List<List<Integer>> sccs = sccFinder.findSCCs();
+            sccFinder.printResults();
+
+            // Build condensation graph
+            System.out.println("\n" + "=".repeat(50));
+            System.out.println("STEP 2: Building Condensation Graph");
+            System.out.println("=".repeat(50));
+
+            CondensationGraph condensation = new CondensationGraph(
+                    graph, sccs, sccFinder.getComponentIds());
+            Graph dag = condensation.build();
+            condensation.printCondensation();
+
+            System.out.println("\nIs condensation a valid DAG? " + condensation.isDAG());
+
             // TODO: Add topological sort
             // TODO: Add shortest/longest paths
 
